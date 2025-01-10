@@ -1,0 +1,144 @@
+Current configuration : 3489 bytes
+!
+version 15.4
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname AutoPro_Edge2
+!
+!
+!
+enable secret 5 $1$mERr$RyQ7IDQ3depoIRoum1/G8/
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username Edge2 password 0 SpeedSSH
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+ip ssh time-out 60
+no ip domain-lookup
+ip domain-name www.autopromexico.com
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ description Conexion a hosts
+ ip address 172.197.224.1 255.255.248.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0/1.40
+ encapsulation dot1Q 40
+ ip address 172.197.248.1 255.255.254.0
+!
+interface GigabitEthernet0/0/1.50
+ encapsulation dot1Q 50
+ ip address 172.197.250.1 255.255.255.128
+!
+interface GigabitEthernet0/0/1.60
+ encapsulation dot1Q 60
+ ip address 172.197.250.129 255.255.255.128
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/1/0
+ description Conexion directa a AutoPro_Core
+ ip address 172.197.232.21 255.255.255.252
+ clock rate 128000
+!
+interface Serial0/1/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 172.197.232.20 0.0.0.3 area 0
+ network 172.197.224.0 0.0.7.255 area 1
+ network 172.197.248.0 0.0.1.255 area 2
+ network 172.197.250.0 0.0.0.127 area 2
+ network 172.197.250.128 0.0.0.127 area 2
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWNNK00OkkkxxkkkOO0KXXNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WKdlloddxOXWWWWWWWNKOxoc:,'...           ...',;ldkKNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WNOdc.  .ckNWNKkoc,..                             .;okXNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWNKd. .lxdl,.                                       .:oOXWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWXl..                                                   .':lloooddxxkO0KNWWWWWWWWWWWWWW
+WWK,                                                                   ..;lddk0XNWWWWWWW
+WNk.           'cccccc;.                                              ....    .':dKNWWWW
+Nx'          'od:....,cd:.                                         ,lllccllc'     .oXWWW
+Nl          .xo.       ,xc                                       .od,.    .;xc.    .oNWW
+Nx.         ;k,        .dd.                                      lx'        ,k:     :XWW
+WXd.        'ko.       ,kc                                       lx.        'kc     cXWW
+WWNKxolcccodkXXk:'...,okl.                                       'do.      'do.     .xNW
+WWWWWWWWWWWWWWWWWXKKXNNKOOOkkkkkkkkkkkkkkkkkkkxkxxxxxxxxxxddddddddOX0dc::lxKKxlccllld0NW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+----------------------------------------------------------------------------------------
+Bienvenido a Autopro.
+El acceso a este dispositivo est limitado exclusivamente a usuarios autorizados.
+Si no cuenta con la autorizacin correspondiente, desconctese inmediatamente.
+El acceso no autorizado constituye una violacin de las polticas internas de Autopro
+y puede derivar en sanciones legales conforme a las normativas aplicables.
+^C
+!
+!
+!
+!
+line con 0
+ password MotorSecure
+ logging synchronous
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password SpeedSSH
+ login local
+ transport input ssh
+!
+!
+!
+end

@@ -1,0 +1,129 @@
+Current configuration : 3088 bytes
+!
+version 15.4
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname AutoPro_Core
+!
+!
+!
+enable secret 5 $1$mERr$Z6oSR3GN0K3FRtbO6o74F.
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+username admin password 0 PistonSSH
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh time-out 60
+no ip domain-lookup
+ip domain-name autopro.com
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ description Es el nucleo de la red, conecta directamente a los servidores y gestiona la comunicacion con los otros dos routers para garantizar el flujo eficiente de datos entre todas las subredes.
+ ip address 172.197.232.1 255.255.255.240
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/1/0
+ description Conexion directa a AutoPro_Edge1
+ ip address 172.197.232.18 255.255.255.252
+!
+interface Serial0/1/1
+ description Conexion directa a AutoPro_Edge2
+ ip address 172.197.232.22 255.255.255.252
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 172.197.232.16 0.0.0.3 area 0
+ network 172.197.232.20 0.0.0.3 area 0
+ network 172.197.232.0 0.0.0.15 area 0
+!
+router rip
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWNNWWWWWWWWWWWWWWWWWNXK0OkxddooodddxkO00KNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+W0o::ccld0WWWWWNKOdo:,'..              ...':lx0NWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WNKkl. .cONXOdc,.                             .,lkKNWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWXOo,  ':;.                                      .;oOKXNNNNNWWWWWWWWWWWWWWWWWWW
+WWk.                                                  .'',,,;;:ccokKXNWWWWWWWWWW
+WWx.           .,,'.                                               .',:ld0NWWWWW
+NO,         .:lc:::cl:.                                      .,:ccc:'.   .,xXWWW
+X:         .dl.     .lo.                                    ;oc,...,lo,    .lXWW
+Xc         cd.       .x:                                   ;x,       :x,    'OWW
+W0;        ;x,       ;x,                                   cd.       'x:    '0WW
+WWKxl:;,;clxK0c.. .'lx:.                                   'dc.     .lo.    .oXW
+WWWWWWNNWWWWWWNX0O0XN0kxxxxxxxxxxxdddddddddddddddddoooooooloOKkl:;:lOKdc::cclxXW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNWWWWWWWWWWWWW
+-------------------------------------------------------------------------------------
+Bienvenido a Autopro.
+El acceso a este dispositivo est limitado exclusivamente a usuarios autorizados.
+Si no cuenta con la autorizacin correspondiente, desconctese inmediatamente.
+El acceso no autorizado constituye una violacin de las polticas internas de Autopro
+y puede derivar en sanciones legales conforme a las normativas aplicables.
+^C
+!
+!
+!
+!
+line con 0
+ password DriftSecure
+ logging synchronous
+ login
+!
+line aux 0
+!
+line vty 0 4
+ password PistonSSH
+ login local
+ transport input ssh
+!
+!
+!
+end
